@@ -1,0 +1,37 @@
+name: bloc_demo
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  salomon_bottom_bar: ^3.3.2
+  lottie: ^3.3.1
+  dotlottie_loader: ^0.0.5
+  http: ^1.5.0
+  intl: ^0.20.2
+  flutter_screenutil: ^5.9.3
+  geolocator: ^14.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
