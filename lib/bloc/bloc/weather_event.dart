@@ -9,3 +9,4 @@ final class WeatherChange extends WeatherEvent {
   final String typeName;
   WeatherChange(this.typeName);
 }
+class WeatherLoadSaved extends WeatherEvent {}

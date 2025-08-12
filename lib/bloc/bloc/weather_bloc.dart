@@ -1,3 +1,4 @@
+import 'package:bloc_demo/data/data_provider/location_services.dart';
 import 'package:bloc_demo/data/repository/weather_repository.dart';
 import 'package:bloc_demo/modesl/weather_model.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherBloc(this.weatherRepository) : super(WeatherInitial()) {
     on<WeatherFetch>(_getCurrentWeather);
     on<WeatherChange>(_getTypeWeather);
+    on<WeatherLoadSaved>(_getWeatherFromSaved);
   }
 
   Future<void> _getCurrentWeather(
@@ -18,6 +20,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     Emitter<WeatherState> emit,
   ) async {
     emit(WeatherLoading());
+
     try {
       WeatherModel weather;
       weather = await weatherRepository.getWeatherByLatLon();
@@ -38,7 +41,29 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       print("Weather fetched for: ${event.typeName}");
       emit(WeatherSuccess(weather));
     } catch (e) {
-       print("Error fetching weather: $e");
+      print("Error fetching weather: $e");
+      emit(WeatherFailer(e.toString()));
+    }
+  }
+
+  Future<void> _getWeatherFromSaved(
+    WeatherLoadSaved event,
+    Emitter<WeatherState> emit,
+  ) async {
+    emit(WeatherLoading());
+    try {
+      final savedLocation = await LocationStorage.getSavedLocation();
+      if (savedLocation == null) {
+        add(WeatherFetch());
+        return;
+      }
+
+      WeatherModel weather = await weatherRepository.getWeatherByCity(
+        savedLocation,
+      );
+
+      emit(WeatherSuccess(weather));
+    } catch (e) {
       emit(WeatherFailer(e.toString()));
     }
   }

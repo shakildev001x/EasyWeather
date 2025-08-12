@@ -23,7 +23,8 @@ class MainApp extends StatelessWidget {
           BlocProvider(
             create: (context) {
               final bloc = WeatherBloc(context.read<WeatherRepository>());
-              bloc.add(WeatherFetch());
+              bloc.add(WeatherLoadSaved());
+             
               return bloc;
             },
           ),
